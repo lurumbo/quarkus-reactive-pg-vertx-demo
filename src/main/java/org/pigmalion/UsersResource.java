@@ -35,7 +35,7 @@ public class UsersResource {
     }
 
     protected Handler<AsyncResult<Message<Object>>> getAsyncResultHandler (RoutingContext rc) {
-        logger.info("GET /users handled");
+        //logger.info("GET /users handled");
         return reply -> {
             rc.response().putHeader("Content-Type", "application/json");
 
