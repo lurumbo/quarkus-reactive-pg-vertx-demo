@@ -52,9 +52,10 @@ public class DbVerticle extends AbstractVerticle {
 
     @ConsumeEvent("getUsers")
     public void getUsers(Message<JsonObject> message) {
-        logger.info("-------------- getUsers method called --------------");
+        String rawQuery = "SELECT * FROM USERS";
+        logger.info("Executed query: " + rawQuery);
         client
-                .query("SELECT * FROM USERS")
+                .query(rawQuery)
                 .execute( res -> {
                     if (res.succeeded()) {
                         RowSet<Row> rows = res.result();

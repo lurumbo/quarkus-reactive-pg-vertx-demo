@@ -11,6 +11,8 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 
 import javax.inject.Inject;
@@ -25,12 +27,15 @@ public class UsersResource {
     @Inject
     EventBus bus;
 
+    private final Logger logger = LoggerFactory.getLogger(UsersResource.class);
+
     @Route(path = "/users", methods = HttpMethod.GET)
     public void query (RoutingContext rc) {
         bus.request("getUsers", null, new DeliveryOptions(), getAsyncResultHandler(rc));
     }
 
     protected Handler<AsyncResult<Message<Object>>> getAsyncResultHandler (RoutingContext rc) {
+        logger.info("GET /users handled");
         return reply -> {
             rc.response().putHeader("Content-Type", "application/json");
 
