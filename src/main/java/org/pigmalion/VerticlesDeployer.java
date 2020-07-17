@@ -16,9 +16,8 @@ import javax.enterprise.inject.Instance;
 
 @ApplicationScoped
 public class VerticlesDeployer {
+
     private static Logger logger = LoggerFactory.getLogger(VerticlesDeployer.class);
-    @ConfigProperty(name = "quarkus.application.version")
-    String version;
 
     public void init(@Observes StartupEvent e, Vertx vertx, Instance<AbstractVerticle> verticles) {
         try {

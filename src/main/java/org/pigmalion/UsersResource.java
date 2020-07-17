@@ -38,7 +38,6 @@ public class UsersResource {
         //logger.info("GET /users handled");
         return reply -> {
             rc.response().putHeader("Content-Type", "application/json");
-
             if (reply.succeeded()) {
                 JsonArray response = (JsonArray) reply.result().body();
                 rc.response().end(response.encode());
