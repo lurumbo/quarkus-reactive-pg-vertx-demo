@@ -39,7 +39,6 @@ public class DbVerticle extends AbstractVerticle {
 
         client.getConnection(ar -> {
             if (ar.succeeded()) {
-                vertx.eventBus().consumer("GET_USERS", this::getUsers);
                 logger.info("------ Postgres getConnection success ----------");
                 promise.complete();
             } else {
@@ -50,7 +49,7 @@ public class DbVerticle extends AbstractVerticle {
 
     }
 
-    @ConsumeEvent("getUsers")
+    @ConsumeEvent("GET_USERS")
     public void getUsers(Message<JsonObject> message) {
         String rawQuery = "SELECT * FROM USERS";
         //logger.info("Executed query: " + rawQuery);
@@ -59,13 +58,13 @@ public class DbVerticle extends AbstractVerticle {
                 .execute( res -> {
                     if (res.succeeded()) {
                         RowSet<Row> rows = res.result();
-                        JsonArray userArrayList = new JsonArray();
+                        JsonArray userArray = new JsonArray();
                         for (Row row : rows) {
                             Long id = row.getLong("id");
                             String name = row.getString("name");
-                            userArrayList.add(new JsonObject().put("id", id).put("name", name));
+                            userArray.add(new JsonObject().put("id", id).put("name", name));
                         }
-                        message.reply(userArrayList);
+                        message.reply(userArray);
                     } else {
                         logger.error("------ getUsers message error ------ " + res.cause().toString());
                     }

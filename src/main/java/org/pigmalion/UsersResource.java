@@ -31,7 +31,8 @@ public class UsersResource {
 
     @Route(path = "/users", methods = HttpMethod.GET)
     public void query (RoutingContext rc) {
-        bus.request("getUsers", null, new DeliveryOptions(), getAsyncResultHandler(rc));
+        bus.request("GET_USERS", null, new DeliveryOptions(), getAsyncResultHandler(rc));
+        rc.request();
     }
 
     protected Handler<AsyncResult<Message<Object>>> getAsyncResultHandler (RoutingContext rc) {
